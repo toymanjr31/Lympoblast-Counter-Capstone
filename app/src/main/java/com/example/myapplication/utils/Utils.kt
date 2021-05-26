@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.utils
 
 import android.content.ContentResolver
 import android.net.Uri

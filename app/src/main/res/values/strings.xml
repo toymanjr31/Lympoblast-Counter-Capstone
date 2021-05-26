@@ -2,6 +2,6 @@
     <string name="app_name">Lympoblast Counter</string>
     <string name="detect">Detect</string>
     <string name="img_content_desc">Show Uploaded Image and Result</string>
-    <string name="text_desc">Tap to Select Image</string>
+    <string name="text_desc">Tap Picture to Select Image</string>
     <string name="upload">Upload</string>
 </resources>

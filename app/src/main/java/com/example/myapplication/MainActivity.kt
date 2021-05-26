@@ -11,6 +11,9 @@ import com.example.myapplication.api.ApiService
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.response.PostImageResponse
 import com.example.myapplication.response.ResultResponse
+import com.example.myapplication.utils.UploadRequestBody
+import com.example.myapplication.utils.getFileName
+import com.example.myapplication.utils.snackbar
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -18,6 +21,7 @@ import retrofit2.Response
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import java.util.concurrent.Executors
 
 class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
 
@@ -35,19 +39,31 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
 
+        activityMainBinding.progressBar.visibility = View.INVISIBLE
+
         activityMainBinding.imageView.setOnClickListener {
             openImageChooser()
         }
 
         activityMainBinding.buttonUpload.setOnClickListener {
             uploadImage()
-            activityMainBinding.buttonUpload.visibility = View.GONE
-            activityMainBinding.buttonDetect.visibility = View.VISIBLE
+            buttonStatus(true)
 
         }
 
         activityMainBinding.buttonDetect.setOnClickListener {
             detectImage()
+        }
+    }
+
+    private fun buttonStatus(status: Boolean){
+        if (status){
+            activityMainBinding.buttonUpload.visibility = View.GONE
+            activityMainBinding.buttonDetect.visibility = View.VISIBLE
+        }
+        else{
+            activityMainBinding.buttonUpload.visibility = View.VISIBLE
+            activityMainBinding.buttonDetect.visibility = View.GONE
         }
     }
 
@@ -57,8 +73,7 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
             it.setAction(Intent.ACTION_GET_CONTENT)
             startActivityForResult(it, REQUEST_CODE_PICK_IMAGE)
         }
-        activityMainBinding.buttonUpload.visibility = View.VISIBLE
-        activityMainBinding.buttonDetect.visibility = View.GONE
+        buttonStatus(false)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -89,6 +104,7 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
         val outputStream = FileOutputStream(file)
         inputStream.copyTo(outputStream)
 
+        activityMainBinding.progressBar.visibility = View.VISIBLE
         activityMainBinding.progressBar.progress = 0
         val body = UploadRequestBody(file, "file", this)
         ApiService().uploadImage(
@@ -106,6 +122,7 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
                     activityMainBinding.layoutRoot.snackbar("Image Succesfully Uploaded")
                     imageLink = it.recentUpload
                     activityMainBinding.progressBar.progress = 100
+                    activityMainBinding.progressBar.visibility = View.INVISIBLE
                 }
             }
             override fun onFailure(call: Call<PostImageResponse>, t: Throwable) {
@@ -124,6 +141,7 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
         val imgLinkParsed = imageLink!!.split("/").toTypedArray()
         val imgName = imgLinkParsed[3]
 
+        activityMainBinding.progressBar.visibility = View.VISIBLE
         activityMainBinding.progressBar.progress = 0
         ApiService().getResult(
             imgName
@@ -136,9 +154,10 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
                     activityMainBinding.layoutRoot.snackbar("Detection Finished")
                     resultPath = it.resultPath
                     Glide.with(this@MainActivity)
-                        .load("http://10.0.2.2:8000/$resultPath")
+                        .load("http://10.0.2.2:8000$resultPath")
                         .into(activityMainBinding.imageView)
                     activityMainBinding.progressBar.progress = 100
+                    activityMainBinding.progressBar.visibility = View.INVISIBLE
                 }
             }
 
