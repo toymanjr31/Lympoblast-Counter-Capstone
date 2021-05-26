@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import com.bumptech.glide.Glide
 import com.example.myapplication.api.ApiService
 import com.example.myapplication.databinding.ActivityMainBinding
@@ -36,10 +37,15 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
 
         activityMainBinding.imageView.setOnClickListener {
             openImageChooser()
+            activityMainBinding.buttonUpload.visibility = View.VISIBLE
+            activityMainBinding.buttonDetect.visibility = View.GONE
         }
 
         activityMainBinding.buttonUpload.setOnClickListener {
             uploadImage()
+            activityMainBinding.buttonUpload.visibility = View.GONE
+            activityMainBinding.buttonDetect.visibility = View.VISIBLE
+
         }
 
         activityMainBinding.buttonDetect.setOnClickListener {
@@ -71,7 +77,7 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
 
     private fun uploadImage() {
         if (selectedImageUri == null) {
-            activityMainBinding.layoutRoot.snackbar("Select an Image First")
+            activityMainBinding.layoutRoot.snackbar("No Image Chosen Yet")
             return
         }
 
@@ -97,7 +103,7 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
                 response: Response<PostImageResponse>
             ) {
                 response.body()?.let {
-                    activityMainBinding.layoutRoot.snackbar(it.recentUpload)
+                    activityMainBinding.layoutRoot.snackbar("Image Succesfully Uploaded")
                     imageLink = it.recentUpload
                     activityMainBinding.progressBar.progress = 100
                 }
@@ -118,6 +124,7 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
         val imgLinkParsed = imageLink!!.split("/").toTypedArray()
         val imgName = imgLinkParsed[3]
 
+        activityMainBinding.progressBar.progress = 0
         ApiService().getResult(
             imgName
         ).enqueue(object : Callback<ResultResponse>{
@@ -126,7 +133,7 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
                 response: Response<ResultResponse>
             ) {
                 response.body()?.let {
-                    activityMainBinding.layoutRoot.snackbar(it.resultPath)
+                    activityMainBinding.layoutRoot.snackbar("Detection Finished")
                     resultPath = it.resultPath
                     Glide.with(this@MainActivity)
                         .load("http://10.0.2.2:8000/$resultPath")
