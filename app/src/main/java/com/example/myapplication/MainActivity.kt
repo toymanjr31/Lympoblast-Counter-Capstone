@@ -37,8 +37,6 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
 
         activityMainBinding.imageView.setOnClickListener {
             openImageChooser()
-            activityMainBinding.buttonUpload.visibility = View.VISIBLE
-            activityMainBinding.buttonDetect.visibility = View.GONE
         }
 
         activityMainBinding.buttonUpload.setOnClickListener {
@@ -59,6 +57,8 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
             it.setAction(Intent.ACTION_GET_CONTENT)
             startActivityForResult(it, REQUEST_CODE_PICK_IMAGE)
         }
+        activityMainBinding.buttonUpload.visibility = View.VISIBLE
+        activityMainBinding.buttonDetect.visibility = View.GONE
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
