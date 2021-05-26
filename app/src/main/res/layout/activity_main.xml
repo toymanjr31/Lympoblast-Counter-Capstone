@@ -25,7 +25,8 @@
             android:layout_width="match_parent"
             android:layout_height="350dp"
             android:layout_margin="24dp"
-            app:srcCompat="@drawable/ic_picture" />
+            app:srcCompat="@drawable/ic_picture"
+            android:contentDescription="@string/img_content_desc"/>
 
         <TextView
             android:id="@+id/textView"
@@ -33,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:fontFamily="sans-serif-light"
-            android:text="Tap to Select Image"
+            android:text="@string/text_desc"
             android:textSize="24sp" />
 
         <ProgressBar
@@ -64,7 +65,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Upload"
+        android:text="@string/upload"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
