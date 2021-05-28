@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Lympoblast Counter</string>
+    <string name="detect">Detect</string>
     <string name="img_content_desc">Show Uploaded Image and Result</string>
+    <string name="text_desc1">Press Upload Button to upload image</string>
+    <string name="upload">Upload</string>
+    <string name="upload_success">Image Successfully Uploaded</string>
+    <string name="text_desc2">Press Detect Button to detect for lympoblast</string>
+    <string name="image_null">No Image Chosen Yet</string>
+    <string name="detect_finish">Detection Finished</string>
+    <string name="complete_detection">Detection Complete</string>
+    <string name="detection_process">Detecting...</string>
 </resources>

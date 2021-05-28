@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
 
     private fun uploadImage() {
         if (selectedImageUri == null) {
-            activityMainBinding.layoutRoot.snackbar("No Image Chosen Yet")
+            activityMainBinding.layoutRoot.snackbar(getString(R.string.image_null))
             return
         }
 
@@ -89,6 +89,7 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
 
         activityMainBinding.progressBar.visibility = View.VISIBLE
         activityMainBinding.progressBar.progress = 0
+
         val body = UploadRequestBody(file, "file", this)
         ApiService().uploadImage(
             MultipartBody.Part.createFormData(
@@ -119,12 +120,13 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
 
     private fun detectImage(){
         if (imageLink == null) {
-            activityMainBinding.layoutRoot.snackbar("Select an Image First")
+            activityMainBinding.layoutRoot.snackbar((getString(R.string.image_null)))
             return
         }
         val imgLinkParsed = imageLink!!.split("/").toTypedArray()
         val imgName = imgLinkParsed[3]
 
+        activityMainBinding.textView.text = getString(R.string.detection_process)
         activityMainBinding.progressBar.visibility = View.VISIBLE
         activityMainBinding.progressBar.progress = 0
         ApiService().getResult(
@@ -135,13 +137,14 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
                 response: Response<ResultResponse>
             ) {
                 response.body()?.let {
-                    activityMainBinding.layoutRoot.snackbar("Detection Finished")
+                    activityMainBinding.layoutRoot.snackbar(getString(R.string.detect_finish))
                     resultPath = it.resultPath
                     Glide.with(this@MainActivity)
                         .load("http://10.0.2.2:8000$resultPath")
                         .into(activityMainBinding.imageView)
                     activityMainBinding.progressBar.progress = 100
                     activityMainBinding.progressBar.visibility = View.INVISIBLE
+                    activityMainBinding.textView.text = getString(R.string.complete_detection)
                 }
             }
 

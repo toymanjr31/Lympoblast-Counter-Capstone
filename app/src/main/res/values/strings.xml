@@ -6,4 +6,8 @@
     <string name="upload">Upload</string>
     <string name="upload_success">Image Successfully Uploaded</string>
     <string name="text_desc2">Press Detect Button to detect for lympoblast</string>
+    <string name="image_null">No Image Chosen Yet</string>
+    <string name="detect_finish">Detection Finished</string>
+    <string name="complete_detection">Detection Complete</string>
+    <string name="detection_process">Detecting...</string>
 </resources>
