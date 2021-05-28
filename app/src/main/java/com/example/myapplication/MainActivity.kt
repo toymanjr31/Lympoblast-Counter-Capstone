@@ -81,6 +81,7 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
             when (requestCode) {
                 REQUEST_CODE_PICK_IMAGE -> {
                     selectedImageUri = data?.data
+                    activityMainBinding.imageView.alpha = 1F
                     Glide.with(this)
                         .load(selectedImageUri)
                         .into(activityMainBinding.imageView)
