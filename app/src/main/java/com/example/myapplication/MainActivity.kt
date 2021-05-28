@@ -40,29 +40,12 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
 
         activityMainBinding.progressBar.visibility = View.INVISIBLE
 
-        activityMainBinding.imageView.setOnClickListener {
-            openImageChooser()
-        }
-
         activityMainBinding.buttonUpload.setOnClickListener {
-            uploadImage()
-            buttonStatus(true)
-
+            openImageChooser()
         }
 
         activityMainBinding.buttonDetect.setOnClickListener {
             detectImage()
-        }
-    }
-
-    private fun buttonStatus(status: Boolean){
-        if (status){
-            activityMainBinding.buttonUpload.visibility = View.GONE
-            activityMainBinding.buttonDetect.visibility = View.VISIBLE
-        }
-        else{
-            activityMainBinding.buttonUpload.visibility = View.VISIBLE
-            activityMainBinding.buttonDetect.visibility = View.GONE
         }
     }
 
@@ -72,7 +55,6 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
             it.setAction(Intent.ACTION_GET_CONTENT)
             startActivityForResult(it, REQUEST_CODE_PICK_IMAGE)
         }
-        buttonStatus(false)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -85,6 +67,7 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
                     Glide.with(this)
                         .load(selectedImageUri)
                         .into(activityMainBinding.imageView)
+                    uploadImage()
                 }
             }
         }
@@ -119,10 +102,11 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
                 response: Response<PostImageResponse>
             ) {
                 response.body()?.let {
-                    activityMainBinding.layoutRoot.snackbar("Image Succesfully Uploaded")
+                    activityMainBinding.layoutRoot.snackbar(getString(R.string.upload_success))
                     imageLink = it.recentUpload
                     activityMainBinding.progressBar.progress = 100
                     activityMainBinding.progressBar.visibility = View.INVISIBLE
+                    activityMainBinding.textView.text = getString(R.string.text_desc2)
                 }
             }
             override fun onFailure(call: Call<PostImageResponse>, t: Throwable) {
