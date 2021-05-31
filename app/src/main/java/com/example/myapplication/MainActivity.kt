@@ -1,11 +1,13 @@
 package com.example.myapplication
 
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.example.myapplication.api.ApiService
 import com.example.myapplication.databinding.ActivityMainBinding
@@ -14,6 +16,7 @@ import com.example.myapplication.response.ResultResponse
 import com.example.myapplication.utils.UploadRequestBody
 import com.example.myapplication.utils.getFileName
 import com.example.myapplication.utils.snackbar
+import com.google.firebase.storage.FirebaseStorage
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -21,6 +24,8 @@ import retrofit2.Response
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
 
@@ -28,6 +33,8 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
     private var imageLink: String? = null
     private var resultPath: String? = null
     private lateinit var activityMainBinding: ActivityMainBinding
+
+    lateinit var filePath: Uri
 
     companion object {
         const val REQUEST_CODE_PICK_IMAGE = 101
@@ -46,6 +53,7 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
 
         activityMainBinding.buttonDetect.setOnClickListener {
             detectImage()
+            uploadToFirestore()
         }
     }
 
@@ -72,6 +80,40 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
             }
         }
     }
+
+    private fun uploadToFirestore(){
+         if(selectedImageUri!=null) {
+             val pd = ProgressDialog(this)
+             pd.setTitle("Uploading to Firestore")
+             pd.show()
+
+             val formatter = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault())
+             val now = Date()
+             val fileName = formatter.format(now)
+
+             val imageRef = FirebaseStorage.getInstance().reference.child("images/$fileName")
+             imageRef.putFile(selectedImageUri!!)
+                 .addOnSuccessListener { p0 ->
+                     pd.dismiss()
+                     Toast.makeText(
+                         applicationContext,
+                         "File Uploaded to Firestore",
+                         Toast.LENGTH_LONG
+                     ).show()
+                 }
+                 .addOnFailureListener { p0 ->
+                     pd.dismiss()
+                     Toast.makeText(applicationContext, p0.message, Toast.LENGTH_LONG).show()
+
+                 }
+                 .addOnProgressListener { p0 ->
+                     val progress = (100.0 * p0.bytesTransferred) / p0.totalByteCount
+                     pd.setMessage("Uploaded ${progress.toInt()}%")
+                 }
+         }
+}
+
+
 
     private fun uploadImage() {
         if (selectedImageUri == null) {

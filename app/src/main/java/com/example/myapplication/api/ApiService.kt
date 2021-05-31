@@ -18,7 +18,7 @@ interface ApiService {
                 .build()
                 .create(ApiService::class.java)
         }
-    }
+    } 
 
     @GET("/api/result/opencv/{filename}")
     fun getResult(

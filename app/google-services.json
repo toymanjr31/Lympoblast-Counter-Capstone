@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "534280467255",
+    "project_id": "lymphoblast-counter",
+    "storage_bucket": "lymphoblast-counter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:534280467255:android:0bd60e26422c68c1b1e0b2",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "534280467255-kqlgf9dcfnf20lk302faiq2amknm6uq2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.myapplication",
+            "certificate_hash": "0612a1b9e57249ca98b4e6977706822dbce9e4b1"
+          }
+        },
+        {
+          "client_id": "534280467255-9e80adun7r3hjclcvdpd7narn6rep49e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQMTNaDBt8vnJAkf65OoF0T5WBfXIZ6Y4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "534280467255-9e80adun7r3hjclcvdpd7narn6rep49e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
