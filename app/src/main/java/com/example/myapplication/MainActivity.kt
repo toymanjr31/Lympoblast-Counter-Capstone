@@ -169,8 +169,6 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
         val imgName = imgLinkParsed[3]
 
         activityMainBinding.textView.text = getString(R.string.detection_process)
-        activityMainBinding.progressBar.visibility = View.VISIBLE
-        activityMainBinding.progressBar.progress = 0
         ApiService().getResult(
             imgName
         ).enqueue(object : Callback<ResultResponse>{
@@ -184,8 +182,6 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
                     Glide.with(this@MainActivity)
                         .load("http://10.0.2.2:8000$resultPath")
                         .into(activityMainBinding.imageView)
-                    activityMainBinding.progressBar.progress = 100
-                    activityMainBinding.progressBar.visibility = View.INVISIBLE
                     activityMainBinding.textView.text = getString(R.string.complete_detection)
                 }
             }
