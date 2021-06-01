@@ -34,8 +34,6 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
     private var resultPath: String? = null
     private lateinit var activityMainBinding: ActivityMainBinding
 
-    lateinit var filePath: Uri
-
     companion object {
         const val REQUEST_CODE_PICK_IMAGE = 101
     }
@@ -83,18 +81,18 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
 
     private fun uploadToFirestore(){
          if(selectedImageUri!=null) {
-             val pd = ProgressDialog(this)
-             pd.setTitle("Uploading to Firestore")
-             pd.show()
+             val progressDialog = ProgressDialog(this)
+             progressDialog.setTitle("Uploading to Firestore")
+             progressDialog.show()
 
-             val formatter = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault())
-             val now = Date()
-             val fileName = formatter.format(now)
+             val dataFormat = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault())
+             val currentDate = Date()
+             val fileName = dataFormat.format(currentDate)
 
-             val imageRef = FirebaseStorage.getInstance().reference.child("images/$fileName")
-             imageRef.putFile(selectedImageUri!!)
-                 .addOnSuccessListener { p0 ->
-                     pd.dismiss()
+             val imageReference = FirebaseStorage.getInstance().reference.child("images/$fileName")
+             imageReference.putFile(selectedImageUri!!)
+                 .addOnSuccessListener {
+                     progressDialog.dismiss()
                      Toast.makeText(
                          applicationContext,
                          "File Uploaded to Firestore",
@@ -102,13 +100,13 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
                      ).show()
                  }
                  .addOnFailureListener { p0 ->
-                     pd.dismiss()
+                     progressDialog.dismiss()
                      Toast.makeText(applicationContext, p0.message, Toast.LENGTH_LONG).show()
 
                  }
                  .addOnProgressListener { p0 ->
-                     val progress = (100.0 * p0.bytesTransferred) / p0.totalByteCount
-                     pd.setMessage("Uploaded ${progress.toInt()}%")
+                     val progressLoad = (100.0 * p0.bytesTransferred) / p0.totalByteCount
+                     progressDialog.setMessage("Uploaded ${progressLoad.toInt()}%")
                  }
          }
 }
