@@ -10,16 +10,6 @@ import retrofit2.http.*
 
 interface ApiService {
 
-    companion object {
-        operator fun invoke(): ApiService {
-            return Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:8000/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(ApiService::class.java)
-        }
-    } 
-
     @GET("/api/result/opencv/{filename}")
     fun getResult(
         @Path("filename") filename: String

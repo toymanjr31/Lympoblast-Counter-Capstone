@@ -9,7 +9,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.bumptech.glide.Glide
-import com.example.myapplication.api.ApiService
+import com.example.myapplication.api.ApiConfig
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.response.PostImageResponse
 import com.example.myapplication.response.ResultResponse
@@ -131,7 +131,7 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
         activityMainBinding.progressBar.progress = 0
 
         val body = UploadRequestBody(file, "file", this)
-        ApiService().uploadImage(
+        ApiConfig.getApiService().uploadImage(
             MultipartBody.Part.createFormData(
                 "file",
                 file.name,
@@ -167,7 +167,7 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
         val imgName = imgLinkParsed[3]
 
         activityMainBinding.textView.text = getString(R.string.detection_process)
-        ApiService().getResult(
+        ApiConfig.getApiService().getResult(
             imgName
         ).enqueue(object : Callback<ResultResponse>{
             override fun onResponse(
@@ -178,7 +178,7 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
                     activityMainBinding.layoutRoot.snackbar(getString(R.string.detect_finish))
                     resultPath = it.resultPath
                     Glide.with(this@MainActivity)
-                        .load("http://10.0.2.2:8000$resultPath")
+                        .load("https://lymhp-tf.herokuapp.com$resultPath")
                         .into(activityMainBinding.imageView)
                     activityMainBinding.textView.text = getString(R.string.complete_detection)
                 }
