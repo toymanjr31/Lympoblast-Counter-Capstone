@@ -131,6 +131,7 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
         activityMainBinding.progressBar.progress = 0
 
         val body = UploadRequestBody(file, "file", this)
+        activityMainBinding.textView.text = getString(R.string.upload_process)
         ApiConfig.getApiService().uploadImage(
             MultipartBody.Part.createFormData(
                 "file",
@@ -178,7 +179,7 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
                     activityMainBinding.layoutRoot.snackbar(getString(R.string.detect_finish))
                     resultPath = it.resultPath
                     Glide.with(this@MainActivity)
-                        .load("https://lymhp-tf.herokuapp.com$resultPath")
+                        .load("https://api-lymphocounter-nzzhike6aa-et.a.run.app$resultPath")
                         .into(activityMainBinding.imageView)
                     activityMainBinding.textView.text = getString(R.string.complete_detection)
                 }
