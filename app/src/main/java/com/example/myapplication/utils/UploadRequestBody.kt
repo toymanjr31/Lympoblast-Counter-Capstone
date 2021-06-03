@@ -14,6 +14,10 @@ class UploadRequestBody(
     private val callback: UploadCallback
 ) : RequestBody() {
 
+    companion object {
+        private const val DEFAULT_BUFFER_SIZE = 2048
+    }
+
     override fun contentType() = "$contentType/*".toMediaTypeOrNull()
 
     override fun contentLength() = file.length()
@@ -34,10 +38,6 @@ class UploadRequestBody(
         }
     }
 
-    interface UploadCallback {
-        fun onProgressUpdate(percentage: Int)
-    }
-
     inner class ProgressUpdater(
         private val uploaded: Long,
         private val total: Long
@@ -47,7 +47,7 @@ class UploadRequestBody(
         }
     }
 
-    companion object {
-        private const val DEFAULT_BUFFER_SIZE = 2048
+    interface UploadCallback {
+        fun onProgressUpdate(percentage: Int)
     }
 }

@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
     private lateinit var activityMainBinding: ActivityMainBinding
 
     companion object {
-        const val REQUEST_CODE_PICK_IMAGE = 101
+        const val REQUEST_CODE_PICK_IMAGE = 200
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

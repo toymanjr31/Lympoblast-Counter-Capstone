@@ -6,18 +6,6 @@ import android.provider.OpenableColumns
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
 
-fun View.snackbar(message: String) {
-    Snackbar.make(
-        this,
-        message,
-        Snackbar.LENGTH_LONG
-    ).also { snackbar ->
-        snackbar.setAction("Ok") {
-            snackbar.dismiss()
-        }
-    }.show()
-}
-
 fun ContentResolver.getFileName(fileUri: Uri): String {
     var name = ""
     val returnCursor = this.query(fileUri, null, null, null, null)
@@ -28,4 +16,16 @@ fun ContentResolver.getFileName(fileUri: Uri): String {
         returnCursor.close()
     }
     return name
+}
+
+fun View.snackbar(message: String) {
+    Snackbar.make(
+        this,
+        message,
+        Snackbar.LENGTH_LONG
+    ).also { snackbar ->
+        snackbar.setAction("Ok") {
+            snackbar.dismiss()
+        }
+    }.show()
 }

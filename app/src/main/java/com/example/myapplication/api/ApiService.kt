@@ -4,8 +4,6 @@ import okhttp3.MultipartBody
 import com.example.myapplication.response.PostImageResponse
 import com.example.myapplication.response.ResultResponse
 import retrofit2.Call
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 
 interface ApiService {
