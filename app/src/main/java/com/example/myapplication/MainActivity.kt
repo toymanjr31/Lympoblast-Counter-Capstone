@@ -82,7 +82,6 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
     private fun uploadToFirestore(){
          if(selectedImageUri!=null) {
              val progressDialog = ProgressDialog(this)
-             progressDialog.setTitle("Uploading to Firestore")
              progressDialog.show()
 
              val dataFormat = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault())
@@ -93,11 +92,6 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
              imageReference.putFile(selectedImageUri!!)
                  .addOnSuccessListener {
                      progressDialog.dismiss()
-                     Toast.makeText(
-                         applicationContext,
-                         "File Uploaded to Firestore",
-                         Toast.LENGTH_LONG
-                     ).show()
                  }
                  .addOnFailureListener { p0 ->
                      progressDialog.dismiss()
@@ -106,7 +100,7 @@ class MainActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
                  }
                  .addOnProgressListener { p0 ->
                      val progressLoad = (100.0 * p0.bytesTransferred) / p0.totalByteCount
-                     progressDialog.setMessage("Uploaded ${progressLoad.toInt()}%")
+                     progressDialog.setMessage("Loading ${progressLoad.toInt()}%")
                  }
          }
 }
