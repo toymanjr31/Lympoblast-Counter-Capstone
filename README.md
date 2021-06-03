@@ -11,7 +11,7 @@ By default, the application use the remote API that can be accessed here: https:
 
 Local API can be accessed here: https://github.com/nichoteloo/API_lymphoblast_devel/tree/main/apps/API
 Instruction on running the API on localhost can be followed in "command.txt".
-To run with local api, the base directory in Retrofit should be changed with "http://10.0.2.2:8000/
+To run with local API, the base directory in Retrofit should be changed with "http://10.0.2.2:8000/
 
 ## Uploading Images
 Uploading image to the server uses a custom RequestBody function.
